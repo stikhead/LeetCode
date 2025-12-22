@@ -14,12 +14,7 @@ public:
         if (!list1 && !list2) {
             return nullptr;
         }
-        if (!list1) {
-            return list2;
-        }
-        if (!list2) {
-            return list1;
-        }
+      
         ListNode dummy = ListNode(0);
         ListNode* newHead = &dummy;
         while (list1 && list2) {
@@ -29,7 +24,6 @@ public:
                 list1 = list1->next;
                
             }
-
             else {
                 temp = list2;
                 list2 = list2->next;
