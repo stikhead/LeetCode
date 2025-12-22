@@ -32,13 +32,13 @@ public:
             newHead = temp;
            
         }
-        if (list1) {
+        while (list1) {
             newHead->next = list1;
             newHead = newHead->next;
             list1 = list1->next;
         }
 
-        if (list2) {
+        while (list2) {
             newHead->next = list2;
             newHead = newHead->next;
             list2 = list2->next;
