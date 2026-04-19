@@ -13,7 +13,7 @@ public:
         }
         return true;
     }
-    void backtrack( vector<vector<string>> &ans, vector<string> op, string input, int index){
+    void backtrack( vector<vector<string>> &ans, vector<string> &op, string input, int index){
         if(index==input.size()){
             ans.push_back(op);
             return;
