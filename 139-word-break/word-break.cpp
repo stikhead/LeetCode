@@ -38,23 +38,23 @@ public:
     }
     bool wordBreak(string s, vector<string>& wordDict) {
         int mx = 0;
-        unordered_map<char, int> charCounts;
+        // unordered_map<char, int> charCounts;
         for (const std::string& word : wordDict) {
-            for (char c : word) {
-                charCounts[c]++;
-            }
+            // for (char c : word) {
+            //     charCounts[c]++;
+            // }
 
             mx = max<int>(mx, word.size());
         }
 
-        unordered_map<char, int> charCountsFromString;
-        for (char c : s) {
-            charCountsFromString[c]++;
-        }
+        // unordered_map<char, int> charCountsFromString;
+        // for (char c : s) {
+        //     charCountsFromString[c]++;
+        // }
 
-        if (charCountsFromString.size() > charCounts.size()) {
-            return false;
-        }
+        // if (charCountsFromString.size() > charCounts.size()) {
+        //     return false;
+        // }
 
         unordered_map<string, bool> memo;
 
