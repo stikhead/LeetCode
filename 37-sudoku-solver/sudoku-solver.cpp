@@ -14,43 +14,28 @@ public:
 
         return true;
     }
-    bool recursion(vector<vector<char>>& temp, vector<vector<char>>& board,
-                   int r, int c) {
-        if (r == 9 && c == 0) {
-            board = temp;
+    bool recursion(vector<vector<char>>& board, int r, int c) {
+        if (r == 9) {
             return true;
         }
-        
-        if (r < 9 && c < 9 && temp[r][c] != '.') {
-            if (c + 1 == 9) {
-                bool flag = recursion(temp, board, r + 1, (c + 1) % 9);
-                if (flag) {
-                    return true;
-                }
-            } else {
-                bool flag = recursion(temp, board, r, c + 1);
-                if (flag) {
-                    return true;
-                }
-            }
+
+        int nextR = (c == 8) ? r + 1 : r;
+        int nextC = (c == 8) ? 0 : c + 1;
+
+        if (board[r][c] != '.') {
+            return recursion(board, nextR, nextC);
         }
-        if (r < 9 && c < 9 && temp[r][c] == '.') {
+
+        if (board[r][c] == '.') {
             for (char k = '1'; k <= '9'; k++) {
 
-                if (isAvailable(temp, r, c, k)) {
-                    temp[r][c] = k;
-                    if (c + 1 == 9) {
-                        bool flag = recursion(temp, board, r + 1, (c + 1) % 9);
-                        if (flag) {
-                            return true;
-                        }
-                    } else {
-                        bool flag = recursion(temp, board, r, c + 1);
-                        if (flag) {
-                            return true;
-                        }
+                if (isAvailable(board, r, c, k)) {
+                    board[r][c] = k;
+                    bool flag = recursion(board, nextR, nextC);
+                    if (flag) {
+                        return true;
                     }
-                    temp[r][c] = '.';
+                    board[r][c] = '.';
                 }
             }
         }
@@ -58,8 +43,8 @@ public:
     }
     void solveSudoku(vector<vector<char>>& board) {
         vector<vector<char>> temp = board;
-        if (recursion(temp, board, 0, 0)) {
+        if (recursion(board, 0, 0)) {
             return;
-        };
-    }
+        }
+    };
 };
