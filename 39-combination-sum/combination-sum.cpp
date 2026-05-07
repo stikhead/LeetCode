@@ -6,11 +6,11 @@ public:
             return;
         }
 
-        if(sum+nums[index]>target){
-            return;
-        }
 
         for(int i=index; i<nums.size(); i++){
+            if (sum + nums[i] > target) {
+                break; 
+            }
            if(sum+nums[i]<=target){
                 sum+=nums[i];
                 subset.push_back(nums[i]);
