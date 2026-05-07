@@ -5,15 +5,15 @@ class Solution {
         if(acc==sum){
             return true;
         }
-        if(index>=arr.size() || acc>sum){
+        if(index<0 || acc>sum){
             return false;
         }
         
         
         if(dp[index][acc]!=-1) return dp[index][acc];
         
-        bool pick = recursion(dp, arr, sum, index+1, acc+arr[index]);
-        bool nopick = recursion(dp, arr, sum, index+1, acc);
+        bool pick = recursion(dp, arr, sum, index-1, acc+arr[index]);
+        bool nopick = recursion(dp, arr, sum, index-1, acc);
         return dp[index][acc] = (pick || nopick);
         
         
@@ -21,7 +21,7 @@ class Solution {
     
     bool isSubsetSum(vector<int>& arr, int sum) {
         vector<vector<int>> dp(arr.size(), vector<int>(sum, -1));
-        return recursion(dp, arr, sum, 0, 0);
+        return recursion(dp, arr, sum, arr.size()-1, 0);
         
     }
 };
