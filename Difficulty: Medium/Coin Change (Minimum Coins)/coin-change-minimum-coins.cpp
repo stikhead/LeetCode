@@ -1,36 +1,27 @@
 class Solution {
   public:
-    int recur(vector<int>&coins, vector<vector<int>> &dp, int sum, int n){
-        if(sum==0){
-            return 0;
-        }
-        if(n==0){
-            return INT_MAX-1;
-        }
-        if(n==1){
-            if(sum%coins[n-1]!=0){
-                return INT_MAX-1;
-            }        
-            else {
-                return sum/coins[n-1];
-            }
-        }
-        if(dp[n-1][sum]!=-1){
-            return dp[n-1][sum];
-        }
-        if(coins[n-1]<=sum){
-            return dp[n-1][sum] = min(1 + recur(coins, dp, sum - coins[n-1], n), recur(coins, dp, sum, n-1));
-        }
-        else {
-            return dp[n-1][sum] = recur(coins, dp, sum, n-1);
+    int recursion(vector<vector<int>> &dp, vector<int> &coins, int sum, int index){
+            if(sum==0) return 0;
+            if(sum<0) return -1;
+        
+        if(index<0){
+            return 1e9;
+        } 
+        
+        if(dp[index][sum]!=-1) return dp[index][sum];
+        int left = 1e9;
+        if(sum-coins[index]>=0){
+            left = 1+recursion(dp, coins, sum-coins[index], index);
+            
         }
         
+        int right = recursion(dp, coins, sum, index-1);
+        return dp[index][sum] = min(left, right);
     }
     int minCoins(vector<int> &coins, int sum) {
-        int size = coins.size();
-        vector<vector<int>> dp(size, vector<int>(sum+1, -1));
-        int res = recur(coins, dp, sum, coins.size());
-        if(res==INT_MAX - 1) return -1;
-        return res;
+        vector<vector<int>> dp(coins.size(), vector<int>(sum+1, -1));
+        int output = recursion(dp, coins, sum, coins.size()-1);
+        return output == 1e9 ? -1 : output;
+        
     }
 };
