@@ -2,30 +2,27 @@
 
 class Solution {
   public:
-    int recur(vector<int> &price,  vector<vector<int>>& dp, vector<int> &length, int cap, int n){
-        if(cap==0){
+    int recursion(vector<vector<int>> &dp, vector<int> &price, int length, int index){
+        // cout<<index<<" "<<length<<", ";
+        if(length==0){
             return 0;
         }
-        if(n==0){
+        if(index<1){
             return 0;
         }
-        if(dp[n-1][cap]!=-1){
-            return dp[n-1][cap];
+        
+        if(dp[index][length]!=-1) return dp[index][length];
+        int left = 0;
+        if(length-index>=0){
+            left = price[index-1] + recursion(dp, price, length-index, index);
         }
-        if(length[n-1]<=cap){
-            return dp[n-1][cap] = max(price[n-1] + recur(price,dp,  length, cap - length[n-1] , n), recur(price, dp, length, cap , n-1));
-        }
-        else {
-           return dp[n-1][cap]=recur(price,dp,  length, cap , n-1);
-        }
+        int right = recursion(dp, price, length, index-1);
+        return dp[index][length] = max(left, right);
     }
     int cutRod(vector<int> &price) {
-        int size = price.size();
-        vector<int> length;
-        vector<vector<int>> dp(size, vector<int>(size+1, -1));
-        for(int i=1; i<=size; i++){
-            length.push_back(i);
-        }
-        return recur(price,dp, length, size, size);
+        // return price[0];
+        vector<vector<int>> dp(price.size()+1, vector<int>(price.size()+1, -1));
+        return recursion(dp, price, price.size(), price.size());
+        
     }
 };
