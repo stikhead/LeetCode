@@ -15,9 +15,22 @@ public:
         return dp[index1][index2] = max(left, right);
     }
     bool isSubsequence(string s, string t) {
-        vector<vector<int>> dp(s.size()+1, vector<int>(t.size()+1, -1));
-        int sol = recursion(dp, s, t, s.size()-1, t.size()-1);
+        // vector<vector<int>> dp(s.size()+1, vector<int>(t.size()+1, -1));
+        // int sol = recursion(dp, s, t, s.size()-1, t.size()-1);
       
-        return (s.size() - sol) == 0 ? true : false;
+        // return (s.size() - sol) == 0 ? true : false;
+
+        int index1 = s.size()-1;
+        int index2 = t.size()-1;
+        while(index2>=0 && index1>=0){
+            if(s[index1]==t[index2]){
+                index2--;
+                index1--;
+            } else {
+                index2--;
+            }
+        }
+
+        return index1<0 ? true : false;
     }
 };
