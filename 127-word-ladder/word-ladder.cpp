@@ -14,7 +14,7 @@ public:
         return count > 1 ? false : true;
     }
     void buildGraphAdjList(vector<vector<int>> &adjList, vector<string> &wordList, string &beginWord, string &endWord){
-        for(int i=0; i<wordList.size(); i++){
+        for(int i=wordList.size()-1; i>=0; i--){
             if(differByOneLetter(beginWord, wordList[i])){
                 adjList[0].push_back(i+1);
             }
@@ -42,12 +42,7 @@ public:
         vector<vector<int>> adjList(wordList.size()+1);
         buildGraphAdjList(adjList, wordList, beginWord, endWord);
 
-        for(int i=0; i<adjList.size(); i++){
-            for(int j=0; j<adjList[i].size(); j++){
-                cout<<adjList[i][j]<<" ";
-            }
-            cout<<endl;
-        }
+    
         int count = 1;
         vector<int> vis(wordList.size()+1, 0);
         queue<int> q;
@@ -66,7 +61,6 @@ public:
                         }   
                         vis[adjList[node][i]] = 1;
                         q.push(adjList[node][i]);
-                        cout<<wordList[adjList[node][i]-1]<<" ";
                     }
                 }
             }
