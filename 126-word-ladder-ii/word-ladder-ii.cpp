@@ -68,13 +68,7 @@ public:
                     }
         }
 
-        for (auto [i, j] : map) {
-            cout << i << ": ";
-            for (auto k : j) {
-                cout << k << " ";
-            }
-            cout << endl;
-        }
+  
         vector<vector<string>> ans;
         if (found) {
             vector<string> constructor;
