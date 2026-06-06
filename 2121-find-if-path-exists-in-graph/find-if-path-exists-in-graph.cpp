@@ -1,32 +1,34 @@
 class Solution {
 public:
-    bool validPath(int n, vector<vector<int>>& edges, int source,
-                   int destination) {
-        if (source == destination) {
+    bool dfs(int node, int destination, vector<int> &vis, vector<vector<int>> &list){
+        
+        if(node==destination){
+            vis[node] = 1;
             return true;
         }
-        vector<vector<int>> adjList(n);
-        for (int i = 0; i < edges.size(); i++) {
-            adjList[edges[i][0]].push_back(edges[i][1]);
-            adjList[edges[i][1]].push_back(edges[i][0]);
-        }
-
-        queue<int> q;
-        vector<int> visited(n, 0);
-        q.push(source);
-        visited[source] = 1;
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-            for (int i = 0; i < adjList[node].size(); i++) {
-                if (adjList[node][i] == destination) { // early return or do return visited[destination] == 1 at end
-                    return true; 
-                } else if (!visited[adjList[node][i]]) {
-                    visited[adjList[node][i]] = 1;
-                    q.push(adjList[node][i]);
+        vis[node] = 1;
+        for(int i=0; i<list[node].size(); i++){
+            if(vis[list[node][i]]==0){
+                if(dfs(list[node][i], destination, vis, list)){
+                    return true;
                 }
             }
         }
-        return false; 
+
+        return false; // last node i.e nothing matched;
+
+
+    }
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        vector<vector<int>> list(n);
+        for(int i=0; i<edges.size(); i++){
+            int a = edges[i][0];
+            int b = edges[i][1];
+            list[a].push_back(b);
+            list[b].push_back(a);
+        }
+
+        vector<int> vis(n, 0);
+        return dfs(source, destination, vis, list);
     }
 };
