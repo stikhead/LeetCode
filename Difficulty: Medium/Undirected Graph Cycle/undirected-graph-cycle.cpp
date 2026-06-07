@@ -1,5 +1,17 @@
 class Solution {
   public:
+    bool dfs(vector<vector<int>> &list, vector<int> &vis, int node, int parent){
+        vis[node] = 1;
+        for(int i=0; i<list[node].size(); i++){
+            int child = list[node][i];
+            if(child!=parent && vis[child]==0){
+                if(dfs(list, vis, child, node)) return true;
+            } else if(child!=parent && vis[child]==1){
+                return true;
+            }
+        }
+        return false;
+    }
     bool isCycle(int V, vector<vector<int>>& edges) {
         // Code here
         int v = V;
