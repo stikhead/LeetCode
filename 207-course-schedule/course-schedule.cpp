@@ -2,17 +2,17 @@ class Solution {
 public:
 
     bool dfs(vector<vector<int>> &adjList, vector<int> &vis, int node){
-        if(vis[node]==1){
-            return true;
-        }
-        if(vis[node]==2){
-            return false;
-        }
         vis[node] = 1;
         for(int i=0; i<adjList[node].size(); i++){
-            if(dfs(adjList, vis, adjList[node][i])){
+            int child = adjList[node][i];
+            if(vis[child]==0){
+                if(dfs(adjList, vis, adjList[node][i])){
+                   return true;
+                }
+            } else if(vis[child]==1){
                 return true;
             }
+            
         }
         vis[node] = 2;
         return false;
