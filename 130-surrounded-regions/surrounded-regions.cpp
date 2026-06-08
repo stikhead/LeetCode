@@ -32,19 +32,19 @@ public:
         vector<vector<int>> vis(m, vector<int>(n, 0));
 
         for (int i = 0; i < m; i++) {
-            if (board[i][0] == 'O') {
+            if (board[i][0] == 'O' &&  vis[i][0]==0) {
                 bfs(board, vis, i, 0);
             }
-            if (board[i][n-1] == 'O') {
+            if (board[i][n-1] == 'O'  && vis[i][n-1]==0) {
                 bfs(board, vis, i, n-1);
             }
         }
 
         for (int i = 0; i < n; i++) {
-            if (board[0][i] == 'O') {
+            if (board[0][i] == 'O'  && vis[0][i]==0) {
                 bfs(board, vis, 0, i);
             }
-            if (board[m-1][i] == 'O') {
+            if (board[m-1][i] == 'O'  && vis[m-1][i]==0) {
                 bfs(board, vis, m-1, i);
             }
         }
