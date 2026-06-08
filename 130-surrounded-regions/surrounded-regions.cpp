@@ -1,56 +1,60 @@
 class Solution {
 public:
-    void solve(vector<vector<char>>& board) {
+    void bfs(vector<vector<char>>& board, vector<vector<int>>& vis, int i, int j) {
         int m = board.size();
         int n = board[0].size();
-        vector<vector<bool>> val(m, vector<bool>(n, false));
-        vector<pair<int, int>> dir = {
-            {0, 1}, {0, -1}, {1, 0}, {-1, 0}
-        };
-        queue<pair<int, int>> q;
-        for(int i=0; i<n; i++){
-            if(board[0][i]=='O'){
-                q.push({0, i});
-                val[0][i] = true;
-            } 
-             if(m>1&&board[m-1][i]=='O'){
-                q.push({m-1, i});
-                val[m-1][i] = true;
-            } 
-        }
-        for(int i=0; i<m; i++){
-            if(board[i][0]=='O'){
-                q.push({i, 0});
-                val[i][0] = true;
-            } 
-             if(n>1 && board[i][n-1]=='O'){
-                q.push({i, n-1});
-                val[i][n-1] = true;
-            }
-        }
 
-        while(!q.empty()){
+        vector<pair<int, int>> dir = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+        queue<pair<int, int>> q;
+
+
+        q.push({i, j});
+        vis[i][j] = 1;
+        while (!q.empty()) {
             auto [row, col] = q.front();
             q.pop();
-            for(int i=0; i<4; i++){
+            for (int i = 0; i < 4; i++) {
                 int nrow = row + dir[i].first;
                 int ncol = col + dir[i].second;
-                if(nrow>=0 && ncol >=0 && nrow<m && ncol <n){
-                    if(board[nrow][ncol] == 'O' && !val[nrow][ncol]){
-                        val[nrow][ncol] = true;
+
+                if (nrow >= 0 && nrow < m && ncol >= 0 && ncol < n) {
+                    if (board[nrow][ncol] == 'O' && vis[nrow][ncol]==0) {
                         q.push({nrow, ncol});
+                        vis[nrow][ncol] = 1;
                     }
                 }
             }
         }
+    }
+    void solve(vector<vector<char>>& board) {
+        int m = board.size();
+        int n = board[0].size();
+        vector<vector<int>> vis(m, vector<int>(n, 0));
 
-        for(int i=1; i<m-1; i++){
-            for(int j=1; j<n-1; j++){
-                if(!val[i][j] && board[i][j]=='O'){
+        for (int i = 0; i < m; i++) {
+            if (board[i][0] == 'O') {
+                bfs(board, vis, i, 0);
+            }
+            if (board[i][n-1] == 'O') {
+                bfs(board, vis, i, n-1);
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (board[0][i] == 'O') {
+                bfs(board, vis, 0, i);
+            }
+            if (board[m-1][i] == 'O') {
+                bfs(board, vis, m-1, i);
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (vis[i][j] == 0 && board[i][j] == 'O') {
                     board[i][j] = 'X';
                 }
             }
         }
-        
     }
 };
