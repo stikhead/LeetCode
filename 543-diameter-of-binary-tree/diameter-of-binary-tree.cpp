@@ -11,22 +11,25 @@
  */
 class Solution {
 public:
-    int recur(TreeNode *root){
+    int recur(TreeNode *root, int& maximum){
         if(!root){
             return 0;
         }
 
-        int left = recur(root->left);
-        int right = recur(root->right);
-
+        int left = recur(root->left, maximum);
+        int right = recur(root->right,  maximum);
+        maximum = max(maximum, left+right);
         return 1 + max(left, right);
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(!root) return 0;
-        int left = recur(root->left);
-        int right = recur(root->right);
-        int temp = max(diameterOfBinaryTree(root->left), diameterOfBinaryTree(root->right));
-        int ans = max(left+right, temp);
-        return ans;
+        int maximum = 0;
+        recur(root, maximum);
+        return maximum;
+        // if(!root) return 0;
+        // int left = recur(root->left);
+        // int right = recur(root->right);
+        // int temp = max(diameterOfBinaryTree(root->left), diameterOfBinaryTree(root->right));
+        // int ans = max(left+right, temp);
+        // return ans;
     }
 };
