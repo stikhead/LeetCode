@@ -17,20 +17,14 @@ public:
             return 0;
         }
 
-        int left = recur(root->left, pathsum);
+        int left = max(0, recur(root->left, pathsum));
         // if(left<0) return 0;
-        int right = recur(root->right, pathsum);
+        int right = max(0, recur(root->right, pathsum));
         // if(right<0) return 0;
         int isRootBig = left+right+root->val;
-        if(left<0 && right< 0){
-            isRootBig = root->val;
-        } else if(right<0){
-            isRootBig = left+root->val;
-        } else if(left<0){
-              isRootBig = right+root->val;
-        }
+       
         pathsum = max(pathsum, isRootBig); 
-        return left+right>0 ? root->val + max(left, right) : isRootBig;
+        return root->val + max(left, right);
 
     }
     int maxPathSum(TreeNode* root) {
