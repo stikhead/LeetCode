@@ -14,26 +14,32 @@ public:
    
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         vector<vector<int>> ans;
-        queue<TreeNode*> q;
+        deque<TreeNode*> q;
         if(!root) return ans;
-        q.push(root);
+        q.push_back(root);
         int level = 0;
         while(!q.empty()){
             int size = q.size();
             level++;
             vector<int> temp;
             for(int i=0; i<size; i++){
-                TreeNode* node = q.front();
-                q.pop();
+                TreeNode* node;
+                if(level%2==0){
+                    node = q.front();
+                    q.pop_front();
+                    if(node->right) q.push_back(node->right);
+                    if(node->left) q.push_back(node->left);
+                } else {
+                    node = q.back();
+                    q.pop_back();
+                        if(node->left) q.push_front(node->left);
+                        if(node->right) q.push_front(node->right);
+                }
                 // cout<<level<<" ";
-                if(node->left) q.push(node->left);
-                if(node->right) q.push(node->right);
-                cout<<node->val<<" ";
+                // cout<<node->val<<" ";
                 temp.push_back(node->val);
             }
-            if(level%2==0){
-                reverse(temp.begin(), temp.end());
-            }
+           
             ans.push_back(temp);
         }
         return ans;
