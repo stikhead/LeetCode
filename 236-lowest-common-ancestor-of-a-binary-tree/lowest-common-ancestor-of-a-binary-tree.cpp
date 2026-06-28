@@ -21,7 +21,6 @@ public:
             q = root;
         } 
         if(q==p){
-            cout<<q->val<<" ";
             ans = q;
             return true;
         }
