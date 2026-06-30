@@ -10,31 +10,40 @@
  * };
  */
 class BSTIterator {
-
-    vector<int> preorder;
-    void pre(TreeNode* root){
-        if(root){
-            pre(root->left);
-            preorder.push_back(root->val);
-            pre(root->right);
+    stack<TreeNode*> st;
+    void left(TreeNode* root){
+        while(root){
+            st.push(root);
+            root=root->left;
         }
     }
-    int index;
+    // vector<int> preorder;
+    // void pre(TreeNode* root){
+    //     if(root){
+    //         pre(root->left);
+    //         preorder.push_back(root->val);
+    //         pre(root->right);
+    //     }
+    // }
+    // int index;
 public:
     BSTIterator(TreeNode* root) {
-        index  = 0;
-        
-        
-        pre(root);
+        left(root);
     }
     
     int next() {
-        return preorder[index++];
+        TreeNode * curr = st.top();
+        st.pop();
+
+        if(curr->right){
+            left(curr->right);
+        }
+        
+        return curr->val;
     }
     
     bool hasNext() {
-        
-        return index < preorder.size();
+        return !st.empty();
     }
 };
 
