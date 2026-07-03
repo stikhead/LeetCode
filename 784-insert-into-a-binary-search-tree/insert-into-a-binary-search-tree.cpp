@@ -16,27 +16,32 @@ public:
             root =  new TreeNode(val);
             return root;
         }
-        TreeNode * prev = nullptr;
-        TreeNode * temp = root;
-        while(temp){
-            prev = temp;
-            if(temp->val > val){
-                temp=temp->left;
-            } else if(temp->val < val){
-                temp=temp->right;
-            } else {
-                temp=temp->left;
-            }
+        if(root->val > val){
+            root->left = insertIntoBST(root->left, val); 
+        } else {
+            root->right = insertIntoBST(root->right, val);
         }
-        if(prev){
-            if(prev->val<val){
-                prev->right = new TreeNode(val);
+        // TreeNode * prev = nullptr;
+        // TreeNode * temp = root;
+        // while(temp){
+        //     prev = temp;
+        //     if(temp->val > val){
+        //         temp=temp->left;
+        //     } else if(temp->val < val){
+        //         temp=temp->right;
+        //     } else {
+        //         temp=temp->left;
+        //     }
+        // }
+        // if(prev){
+        //     if(prev->val<val){
+        //         prev->right = new TreeNode(val);
 
-            } else {
-                prev->left = new TreeNode(val);
+        //     } else {
+        //         prev->left = new TreeNode(val);
                 
-            }
-        }
+        //     }
+        // }
         return root;
     }
 };
